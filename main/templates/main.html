@@ -1,0 +1,9 @@
+<h1>Toko Kuning</h1>
+{% for product in products %}
+    <div>
+        <h2>{{ product.name }}</h2>
+        <p>{{ product.price }}</p>
+        <p>{{ product.description }}</p>
+        <p>Kuantitas: {{ product.quantity }}</p>
+    </div>
+{% endfor %}
