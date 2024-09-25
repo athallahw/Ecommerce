@@ -1,3 +1,4 @@
+import os
 """
 Django settings for Ecommerce project.
 
@@ -23,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8qzbr#qiah+_hj$67+#dv=38wirqrzg$4_jxbqoiw%^0-d4#$w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+PRODUCTION = os.getenv("PRODUCTION", False)
+DEBUG = not PRODUCTION
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "athallah.wibowo-Ecommerce.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "athallah.wibowo-Ecommerce.pbp.cs.ui.ac.id", "athallah-wibowo-tokokuning.pbp.cs.ui.ac.id"]
 
 
 # Application definitions

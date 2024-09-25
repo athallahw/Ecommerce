@@ -14,7 +14,7 @@
     <th>Quantity</th>
   </tr>
 
-  {% comment %} Berikut cara memperlihatkan data mood di bawah baris ini 
+  {% comment %} Berikut cara memperlihatkan data produk di bawah baris ini 
   {% endcomment %} 
   {% for product_entry in products %}
   <tr>
@@ -27,9 +27,16 @@
 </table>
 {% endif %}
 
-<br />
+<br >
 
 <a href="{% url 'main:create_product_entry' %}">
   <button>Add New Product</button>
 </a>
+
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+
 {% endblock content %}

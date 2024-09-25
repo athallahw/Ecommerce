@@ -76,3 +76,37 @@ xml by id
 json by id
 ![alt text](image-8.png)
 
+
+Apa perbedaan antara HttpResponseRedirect() dan redirect()?
+| Fitur                        | HttpResponseRedirect()                               | redirect()                                   |
+|-----------------------------|-------------------------------------------------------|-------------------------------------------------------|
+| Tipe Kelas                   | Kelas dasar untuk membuat respons redirect            | Fungsi shortcut yang mengembalikan HttpResponseRedirect |
+| Fungsi                      | Memberikan kontrol penuh atas respons redirect          | Menyederhanakan pembuatan respons redirect          |
+| Parameter                   | Hanya menerima URL string                            | Lebih fleksibel, bisa menerima: <br>- URL string <br>- Nama view (di-resolve menggunakan `reverse()`) <br>- Objek model (memanggil `get_absolute_url()`) |
+| Fleksibilitas                | Terbatas pada URL string                            | Sangat fleksibel, cocok untuk berbagai skenario redirect |
+| Penggunaan Nama View          | Tidak bisa                                         | Bisa, dengan menggunakan nama view yang telah didefinisikan dalam URLconf |
+| Penggunaan Objek Model       | Tidak bisa                                         | Bisa, secara otomatis memanggil `get_absolute_url()` dari objek model |
+| Contoh Penggunaan            | `HttpResponseRedirect('/some-url/')`                 | `redirect('some-view-name')`, `redirect(some_object)` |
+| Kapan Digunakan             | Ketika membutuhkan kontrol penuh atas respons redirect atau ketika ingin membuat custom header atau status code. | Ketika ingin melakukan redirect dengan cara yang lebih sederhana dan fleksibel, terutama ketika menggunakan nama view atau objek model. |
+
+Perbedaan utama dari HttpResponseRedirect dan redirect adalah HttpResponseRedirect hanya menerima URL string, sedangkan redirect dapat menerima URL string, nama view, dan object model.
+
+Jelaskan cara kerja penghubungan model Product dengan User!
+inti dari penghubungan odel product dengan user terletak pada ForeignKey. Pertama menambahkan owner = models.ForeignKey(User, on_delete=models.CASCADE) pada model Product, hal ini berfungsi untuk membuat hubungan spesifik antara model produk dengan user. Singkatnya satu pengguna dapat memiliki banyak produk, namun satu produk hanya dapat dimiliki satu pengguna. Selanjutnya, ada referesnsi model ke user, dengan menggunakan ForeignKey, yang biasanya menggunakan kolom id, django akan membuat refrensi ke user tersebut. Lalu, terdapat tahapan pengambilan data (QuerySet Filtering) dan nantinya diakses melalui ForeignKey.
+
+Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+| **Aspek**             | **Authentication (Otentikasi)**                               | **Authorization (Otorisasi)**                                   |
+|-----------------------|---------------------------------------------------------------|-----------------------------------------------------------------|
+| **Definisi**          | Memverifikasi identitas pengguna                               | Memverifikasi hak akses pengguna yang sudah diautentikasi        |
+| **Tujuan**            | Menentukan apakah pengguna adalah siapa yang mereka klaim      | Menentukan apa yang diizinkan untuk dilakukan oleh pengguna      |
+| **Kapan Terjadi**     | Saat pengguna mencoba login atau mengakses sumber daya         | Setelah pengguna terotentikasi dan saat mereka mencoba mengakses fitur tertentu |
+| **Data yang Digunakan**| Username dan password atau token autentikasi lainnya           | Peran (roles), izin (permissions), atau grup pengguna            |
+| **Contoh**            | Memasukkan username dan password di halaman login              | Mengakses halaman admin atau mengedit produk hanya jika diizinkan |
+| **Django Implementation** | Menggunakan `authenticate()`, `login()`, dan `logout()`       | Menggunakan `has_perm()`, `is_staff`, `is_superuser`, dan dekorator `@permission_required` |
+| **Hasil**             | Pengguna dianggap valid dan dapat membuat sesi (session)       | Pengguna diberikan atau ditolak akses ke fitur atau halaman tertentu |
+
+ Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+ Django mengingat pengguna yang telah login dengan session dalam bentuk cookies. Pertama django akan memverifikasi pengguna dengan username dan password. Selanjutnya pengguna yang terautentikasi akan diberikan session yang berisi informasi pengguna yang memiliki ID unik untuk mengidentifikasi pengguna. Django lalu menyimpan session ID ini dalam bentuk cookie yang dikirikan menuju browser pengguna. Nantinya, cookie ini akan digunakan untuk melacak request-request selanjutnya oleh pengguna.
+
+  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+  Pertama saya mengaktifkan virtual environment sehingga depedensi proyek dipisahkan dari sistem global. Lalu, saya membuat fungsi form dan registrasi dengan menambahkan UserCreationForm dari django untuk membuat form registrasi, sehingga pengguna dapat mendaftarkan akunnya. Ketiga, saya menyesuaikan template HTML dengan membuat template baru bernama register.html yang menampilkan form registrasi tersebut. Selanjutnya, saya menambahkan url untuk mengakses halaman registrasi sehingga form registrasi terhubung dengan endpoint URL. Kelima, saya menambahkan fungsi login menggunakan AuthenticationForm, validasi input, dan login pengguna jika berhasil, sehingga pengguna dapat mengakses halaman selanjutnya. Keenam, saya membuat template login.html untuk menampilkan form login dan menambahkan url untuk mengakses halaman login. Lalu, untuk menghapus session saat pengguna keluar, saya menambahkan fungsi dan tombol logout pada pengguna yang telah login. Kedelapan, saya menggunakan decorator login_required untuk membatasi setiap pengguna untuk akses kehalaman utama masing masing.Kesembilan, saya menambahkan cookie last_login saat pengguna berhasil login untuk menyimpan informasi kapan terakhir kali pengguna login. Terakhir, saya menghubungkan setiap produk entry dengan Foreign Key terhadap pengguna yang membuatnya.
