@@ -105,8 +105,86 @@ Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saa
 | **Django Implementation** | Menggunakan `authenticate()`, `login()`, dan `logout()`       | Menggunakan `has_perm()`, `is_staff`, `is_superuser`, dan dekorator `@permission_required` |
 | **Hasil**             | Pengguna dianggap valid dan dapat membuat sesi (session)       | Pengguna diberikan atau ditolak akses ke fitur atau halaman tertentu |
 
- Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
- Django mengingat pengguna yang telah login dengan session dalam bentuk cookies. Pertama django akan memverifikasi pengguna dengan username dan password. Selanjutnya pengguna yang terautentikasi akan diberikan session yang berisi informasi pengguna yang memiliki ID unik untuk mengidentifikasi pengguna. Django lalu menyimpan session ID ini dalam bentuk cookie yang dikirikan menuju browser pengguna. Nantinya, cookie ini akan digunakan untuk melacak request-request selanjutnya oleh pengguna.
+Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+Django mengingat pengguna yang telah login dengan session dalam bentuk cookies. Pertama django akan memverifikasi pengguna dengan username dan password. Selanjutnya pengguna yang terautentikasi akan diberikan session yang berisi informasi pengguna yang memiliki ID unik untuk mengidentifikasi pengguna. Django lalu menyimpan session ID ini dalam bentuk cookie yang dikirikan menuju browser pengguna. Nantinya, cookie ini akan digunakan untuk melacak request-request selanjutnya oleh pengguna.
 
-  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
-  Pertama saya mengaktifkan virtual environment sehingga depedensi proyek dipisahkan dari sistem global. Lalu, saya membuat fungsi form dan registrasi dengan menambahkan UserCreationForm dari django untuk membuat form registrasi, sehingga pengguna dapat mendaftarkan akunnya. Ketiga, saya menyesuaikan template HTML dengan membuat template baru bernama register.html yang menampilkan form registrasi tersebut. Selanjutnya, saya menambahkan url untuk mengakses halaman registrasi sehingga form registrasi terhubung dengan endpoint URL. Kelima, saya menambahkan fungsi login menggunakan AuthenticationForm, validasi input, dan login pengguna jika berhasil, sehingga pengguna dapat mengakses halaman selanjutnya. Keenam, saya membuat template login.html untuk menampilkan form login dan menambahkan url untuk mengakses halaman login. Lalu, untuk menghapus session saat pengguna keluar, saya menambahkan fungsi dan tombol logout pada pengguna yang telah login. Kedelapan, saya menggunakan decorator login_required untuk membatasi setiap pengguna untuk akses kehalaman utama masing masing.Kesembilan, saya menambahkan cookie last_login saat pengguna berhasil login untuk menyimpan informasi kapan terakhir kali pengguna login. Terakhir, saya menghubungkan setiap produk entry dengan Foreign Key terhadap pengguna yang membuatnya.
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+Pertama saya mengaktifkan virtual environment sehingga depedensi proyek dipisahkan dari sistem global. Lalu, saya membuat fungsi form dan registrasi dengan menambahkan UserCreationForm dari django untuk membuat form registrasi, sehingga pengguna dapat mendaftarkan akunnya. Ketiga, saya menyesuaikan template HTML dengan membuat template baru bernama register.html yang menampilkan form registrasi tersebut. Selanjutnya, saya menambahkan url untuk mengakses halaman registrasi sehingga form registrasi terhubung dengan endpoint URL. Kelima, saya menambahkan fungsi login menggunakan AuthenticationForm, validasi input, dan login pengguna jika berhasil, sehingga pengguna dapat mengakses halaman selanjutnya. Keenam, saya membuat template login.html untuk menampilkan form login dan menambahkan url untuk mengakses halaman login. Lalu, untuk menghapus session saat pengguna keluar, saya menambahkan fungsi dan tombol logout pada pengguna yang telah login. Kedelapan, saya menggunakan decorator login_required untuk membatasi setiap pengguna untuk akses kehalaman utama masing masing.Kesembilan, saya menambahkan cookie last_login saat pengguna berhasil login untuk menyimpan informasi kapan terakhir kali pengguna login. Terakhir, saya menghubungkan setiap produk entry dengan Foreign Key terhadap pengguna yang membuatnya.
+
+Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Berikut urutan prioritas pengambilan CSS selector dalam menentukan gaya elemen:
+
+pertama, !important: Kalau ada aturan yang pakai !important, itu yang akan diambil duluan, meskipun ada aturan lain yang lebih spesifik. Misalnya, color: red !important; akan menang dari aturan apa pun.
+kedua, Tingkat Spesifisitas:
+    Inline style (gaya langsung di elemen HTML, misalnya di atribut style) punya prioritas tertinggi.
+    Selektor ID (misalnya #id) lebih kuat dari selektor class.
+    Selektor Class, pseudo-class (misalnya :hover), dan attribute (misalnya [type="text"]) di urutan berikutnya.
+    Selektor Tag atau element (misalnya div, p) punya prioritas paling rendah.
+ketiga, Urutan dalam file CSS: Jika dua aturan punya tingkat spesifisitas yang sama, aturan yang ditulis terakhir di file CSS akan dipilih.
+
+Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+responsive design menjadi konsep yang penting pdalam pengembangan aplikasi web karena memudahkan pengguna dalam berinteraksi dengan web, kondisi pada dunia nyata, pengguna berinteraksi dengan menggunakan desktop, ataupun perangkat mobile. Aplikasi yang sudah menerapkan responsive design seperti, tokopedia dan shoope, lalu untuk yang belum menerapkan responsive design, ada PWS dan craigslist
+
+Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+| Properti   | Definisi                                                         | Fungsi                                     | Contoh Implementasi CSS                        |
+|------------|-------------------------------------------------------------------|--------------------------------------------|------------------------------------------------|
+| **Margin** | Ruang di luar elemen, antara elemen dengan elemen lain di sekitarnya. | Mengatur jarak elemen dari elemen lain.    | `margin: 10px;`                                |
+| **Border** | Garis pembatas di sekitar elemen.                                   | Membuat garis di tepi elemen.              | `border: 2px solid black;`                     |
+| **Padding**| Ruang di dalam elemen, antara konten elemen dan tepinya (border).   | Mengatur jarak antara konten dan border.   | `padding: 20px;`                               |
+
+Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+| Konsep         | Flexbox                                                                                           | Grid Layout                                                                                       |
+|----------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Definisi**   | Flexbox (Flexible Box) adalah metode tata letak CSS satu dimensi yang digunakan untuk mengatur item secara fleksibel dalam satu baris atau satu kolom. | Grid Layout adalah metode tata letak CSS dua dimensi yang memungkinkan pengaturan elemen dalam baris dan kolom. |
+| **Kegunaan**   | Flexbox digunakan untuk mengatur item dalam satu dimensi (baik secara horizontal atau vertikal) secara fleksibel. | Grid Layout digunakan untuk tata letak yang lebih kompleks dengan elemen yang diatur dalam baris dan kolom. |
+| **Dimensi**    | Satu dimensi (Baris atau Kolom).                                                                  | Dua dimensi (Baris dan Kolom).                                                                    |
+| **Alignment**  | Flexbox memudahkan pengaturan elemen berdasarkan arah, perataan (alignment), dan distribusi ruang antar elemen. | Grid Layout memungkinkan pengaturan elemen secara presisi menggunakan grid baris dan kolom.       |
+| **Kelebihan**  | Sangat fleksibel untuk tata letak sederhana seperti navigasi, form, dan card layout.               | Cocok untuk tata letak yang lebih kompleks seperti halaman web dengan banyak kolom dan baris.      |
+| **Contoh Implementasi** | `display: flex;` <br> `flex-direction: row;` <br> `justify-content: space-between;` | `display: grid;` <br> `grid-template-columns: repeat(3, 1fr);` <br> `grid-template-rows: auto;` |
+
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+Berikut ini adalah langkah-langkah yang lebih detail, termasuk penjelasan fungsi dari setiap langkah saat mendesain aplikasi web menggunakan HTML, CSS, serta menambahkan fitur navigasi dan tombol interaktif:
+
+1. Menambahkan Tailwind ke Aplikasi
+Penjelasan: Tailwind CSS adalah framework CSS yang memungkinkan kamu menambahkan gaya dengan cepat menggunakan utility classes. Ini mempermudah penataan elemen tanpa menulis banyak kode CSS dari nol.
+Langkah:
+mengedit file base.html.
+Tambahkan tag viewport agar halaman menjadi responsif di perangkat mobile.
+Hubungkan Tailwind CSS dengan menambahkan CDN Tailwind ke dalam tag <head>. Ini akan memungkinkan semua halaman menggunakan Tailwind untuk styling.
+2. Menambahkan Fitur Edit Mood
+Penjelasan: Fitur ini memungkinkan pengguna untuk mengedit data mood mereka di aplikasi. Pengguna bisa memperbarui informasi terkait entri mood melalui form edit.
+Langkah:
+mengedit fungsi edit_mood di views.py untuk mengambil dan menampilkan entri mood yang akan diedit.
+Tambahkan route di urls.py untuk mengakses halaman edit mood melalui URL tertentu.
+Buat halaman edit_mood.html untuk menampilkan form pengeditan mood kepada pengguna.
+3. Menambahkan Fitur Hapus Mood
+Penjelasan: Fitur ini memberikan pengguna kemampuan untuk menghapus entri mood yang sudah tidak diperlukan.
+Langkah:
+membuat fungsi delete_mood di views.py yang akan menghapus entri mood berdasarkan ID.
+Tambahkan path URL di urls.py agar fitur hapus bisa diakses dari halaman utama.
+Tambahkan tombol hapus pada setiap entri mood di halaman utama agar pengguna dapat dengan mudah menghapus entri tersebut.
+4. Menambahkan Navigation Bar
+Penjelasan: Navbar (Navigation Bar) adalah elemen yang digunakan untuk berpindah antara halaman-halaman di aplikasi. Dengan navbar, pengguna dapat dengan mudah mengakses halaman seperti login, logout, register, dan halaman utama.
+Langkah:
+mengedit template navbar.html yang berisi tautan navigasi untuk login, logout, dan register.
+Sertakan template navbar di setiap halaman yang memerlukan navigasi, seperti halaman utama dan halaman user (login, register, dll).
+5. Mengganti Bentuk dan Warna Tombol Edit dan Delete
+Penjelasan: Tombol yang menarik dan responsif membuat aplikasi lebih ramah pengguna. Mengubah bentuk dan warna tombol edit dan delete membantu membedakan fungsinya dengan jelas.
+Langkah:
+mengubah tampilan tombol menggunakan Tailwind CSS, misalnya dengan menambahkan class Tailwind untuk membuatnya lebih interaktif (seperti bg-yellow-500 untuk tombol edit dan bg-red-500 untuk tombol delete).
+Tambahkan animasi hover untuk memberikan efek visual saat pengguna mengarahkan kursor ke tombol, membuat aplikasi terasa lebih responsif dan modern.
+6. Konfigurasi Static Files
+Penjelasan: Static files seperti gambar, CSS, dan JavaScript perlu diatur dengan benar agar dapat diakses ketika aplikasi dijalankan. WhiteNoise membantu dalam pengelolaan file statis saat aplikasi berjalan di mode produksi.
+Langkah:
+Tambahkan WhiteNoise middleware di settings.py untuk mengelola file statis secara otomatis di mode produksi.
+Atur STATIC_URL untuk akses file statis, dan STATICFILES_DIRS atau STATIC_ROOT untuk lokasi penyimpanan file.
+7. Menambahkan Custom Styling dengan Tailwind
+Penjelasan: Meskipun Tailwind menyediakan banyak utility classes, kamu mungkin perlu menambahkan custom styling tambahan untuk kebutuhan khusus. Menggunakan file CSS terpisah memungkinkan kamu mengatur style yang lebih spesifik.
+Langkah:
+membuat file CSS global untuk menyimpan custom styling (misalnya, untuk form atau animasi).
+Hubungkan file CSS tersebut di base.html agar bisa digunakan di seluruh halaman.
+8. Menambahkan Tombol Edit dan Hapus di Tabel
+Penjelasan: Tombol edit dan delete di setiap entri tabel membantu pengguna melakukan aksi langsung pada entri data mood, seperti mengedit atau menghapus entri tersebut.
+Langkah:
+menambahkan tombol edit dan delete pada setiap baris tabel di halaman utama.
+Ubah tampilan tombol sesuai dengan perubahan warna dan bentuk yang sudah ditentukan sebelumnya agar sesuai dengan desain aplikasi.

@@ -7,11 +7,50 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from main.forms import ProductEntryForm
 from main.models import ProductEntry
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
+
+
+@login_required(login_url='/login')
+def show_main(request):
+    # Mengambil semua produk dari database
+    products = ProductEntry.objects.filter(user=request.user)
+
+    context = {
+        'name': request.user.username,
+        'class': 'PBP E',
+        'npm': '2306275576',
+        'products': products,
+        # 'last_login': request.COOKIES['last_login'],
+    }
+
+    return render(request, "main.html", context)
+
+def delete_product(request, id):
+    # Get mood berdasarkan id
+    product = ProductEntry.objects.get(pk = id)
+    # Hapus mood
+    product.delete()
+    # Kembali ke halaman awal
+    return HttpResponseRedirect(reverse('main:show_main'))
+
+def edit_product(request, id):
+    # Get mood entry berdasarkan id
+    product = ProductEntry.objects.get(pk = id)
+
+    # Set mood entry sebagai instance dari form
+    form = ProductEntryForm(request.POST or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan form dan kembali ke halaman awal
+        form.save()
+        return HttpResponseRedirect(reverse('main:show_main'))
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
 
 def logout_user(request):
     logout(request)
@@ -46,19 +85,6 @@ def register(request):
             return redirect('main:login')
     context = {'form':form}
     return render(request, 'register.html', context)
-
-@login_required(login_url='/login')
-def show_main(request):
-    # Mengambil semua produk dari database
-    products = ProductEntry.objects.filter(user=request.user)
-
-    context = {
-        'name': request.user.username,
-        'products': products,
-        'last_login': request.COOKIES['last_login'],
-    }
-
-    return render(request, "main.html", context)
 
 
 def create_product_entry(request):
