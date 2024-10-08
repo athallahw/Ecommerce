@@ -188,3 +188,102 @@ Penjelasan: Tombol edit dan delete di setiap entri tabel membantu pengguna melak
 Langkah:
 menambahkan tombol edit dan delete pada setiap baris tabel di halaman utama.
 Ubah tampilan tombol sesuai dengan perubahan warna dan bentuk yang sudah ditentukan sebelumnya agar sesuai dengan desain aplikasi.
+
+
+Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+| **Manfaat**                   | **Deskripsi Singkat**                                                                                 |
+|-------------------------------|--------------------------------------------------------------------------------------------------------|
+| **Interaktivitas Dinamis**     | Membuat halaman web merespons tindakan pengguna secara real-time (validasi formulir, animasi, dll).    |
+| **Pengembangan Front-end**     | Membuat aplikasi web sisi klien yang interaktif dengan framework seperti React, Angular, atau Vue.js.   |
+| **Pengambilan Data Asinkron**  | Menggunakan AJAX untuk mengambil data dari server tanpa memuat ulang halaman, meningkatkan performa.    |
+| **Manipulasi DOM**             | Mengubah elemen halaman secara langsung tanpa reload, seperti menambah/menghapus konten.               |
+| **Dukungan Lintas Platform**   | Dengan Node.js, JavaScript digunakan di front-end dan back-end, memungkinkan pengembangan full-stack.   |
+| **Progressive Web Apps (PWA)** | Mengembangkan aplikasi web yang dapat diinstal di perangkat, bekerja offline seperti aplikasi native.   |
+
+Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+**await** pada fetch() digunakan untuk menunggu hingga permintaan ke server selesai dan respons diterima sebelum melanjutkan eksekusi kode berikutnya.
+
+Jika Menggunakan await:
+Menunggu hasil fetch() selesai (Promise resolved).
+Kode berikutnya baru dijalankan setelah respons diterima.
+Jika Tidak Menggunakan await:
+fetch() langsung mengembalikan Promise, dan kode berikutnya dijalankan sebelum respons selesai.
+Ini bisa menyebabkan kesalahan karena data dari fetch() belum tersedia.
+Singkatnya, await memastikan operasi asynchronous fetch() selesai sebelum melanjutkan eksekusi kode.
+
+
+Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+1. Menghindari Kesalahan CSRF Validation:
+Django secara default mengaktifkan CSRF (Cross-Site Request Forgery) protection untuk semua request POST sebagai langkah keamanan. Saat kita mengirim AJAX POST request tanpa token CSRF yang valid, Django akan menolak request tersebut dengan memberikan 403 Forbidden error.
+
+2. Memungkinkan AJAX POST tanpa CSRF Token:
+Dengan menambahkan **@csrf_exempt**, kita mengecualikan view tersebut dari pengecekan CSRF. Ini berguna jika request AJAX POST tidak mengirimkan token CSRF, sehingga view tetap bisa menerima dan memproses data yang dikirimkan.
+
+Namun, penggunaan csrf_exempt harus dilakukan dengan hati-hati karena membuka potensi kerentanan terhadap serangan CSRF. Pastikan hanya digunakan pada view yang memang memerlukan pengecualian, dan jika memungkinkan, tetap gunakan token CSRF untuk keamanan tambahan.
+
+Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Pembersihan data di backend sangat penting untuk mencegah serangan, menjaga integritas data, dan memastikan validasi yang konsisten dan dapat diandalkan, terlepas dari sumber atau cara data dikirim. Validasi di frontend berguna untuk memberikan pengalaman pengguna yang lebih baik, tetapi tidak dapat diandalkan untuk keamanan sepenuhnya.
+
+Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+1. Menambahkan Pesan Error Pada Form Produk
+Tujuan: Memberikan umpan balik kepada pengguna jika data yang dimasukkan pada form produk tidak valid.
+Langkah:
+Modifikasi View Produk: Di backend, tambahkan logika untuk memeriksa validitas data form produk. Jika data tidak valid, kirimkan pesan error ke pengguna.
+Tampilkan Pesan di Template: Di halaman form produk (misalnya, halaman tambah produk), tambahkan area untuk menampilkan pesan error yang diterima dari backend.
+
+2. Membuat Fungsi untuk Menambahkan Produk dengan AJAX
+Tujuan: Menambahkan produk baru ke database tanpa me-refresh halaman, meningkatkan pengalaman pengguna.
+Langkah:
+Siapkan Endpoint AJAX: Di backend, buat fungsi yang menerima data produk melalui permintaan POST dan menyimpannya ke database. Pastikan fungsi ini hanya menerima metode POST dan aman dari serangan CSRF.
+Sanitasi Data: Bersihkan data yang diterima untuk mencegah injeksi berbahaya, seperti XSS.
+
+3. Menambahkan Routing Untuk Fungsi AJAX
+Tujuan: Menyediakan URL yang dapat diakses oleh frontend untuk memanggil fungsi AJAX yang telah dibuat.
+Langkah:
+Update Routing: Tambahkan path baru di file routing (misalnya, urls.py) yang mengarah ke fungsi AJAX untuk menambah produk.
+
+4. Menampilkan Data Produk dengan fetch() API
+Tujuan: Mengambil dan menampilkan data produk secara dinamis tanpa me-reload halaman.
+Langkah:
+Buat Endpoint JSON: Di backend, sediakan endpoint yang mengembalikan data produk dalam format JSON.
+Implementasi fetch(): Di frontend, gunakan fetch() API untuk mengambil data dari endpoint JSON dan tampilkan produk di halaman.
+
+5. Membuat Modal Sebagai Form untuk Menambahkan Produk
+Tujuan: Menyediakan form input dalam modal untuk menambah produk baru dengan mudah dan interaktif.
+Langkah:
+Desain Modal: Di frontend, buat struktur modal yang berisi form input untuk nama produk, harga, deskripsi, dan kuantitas.
+Kontrol Tampilan Modal: Tambahkan JavaScript untuk mengontrol pembukaan dan penutupan modal, serta animasi jika diperlukan.
+
+6. Menambahkan Fungsi AJAX untuk Mengirim Data dari Modal
+Tujuan: Mengirim data produk dari form modal ke backend menggunakan AJAX tanpa me-refresh halaman.
+Langkah:
+Tangani Submit Form: Tambahkan event listener pada form di modal yang akan mengirim data produk ke backend melalui AJAX saat form disubmit.
+Perbarui Tampilan Produk: Setelah produk berhasil ditambahkan, perbarui daftar produk yang ditampilkan di halaman secara dinamis.
+
+7. Melindungi Aplikasi dari Cross Site Scripting (XSS)
+Tujuan: Mencegah serangan XSS dengan membersihkan data yang diinputkan pengguna sebelum disimpan dan ditampilkan.
+Langkah:
+Sanitasi di Backend: Gunakan fungsi seperti strip_tags untuk menghapus tag HTML dari input pengguna sebelum menyimpannya ke database.
+Sanitasi di Frontend: Gunakan library seperti DOMPurify saat menampilkan data produk di frontend untuk memastikan data yang ditampilkan aman.
+
+8. Menguji Aplikasi
+Tujuan: Memastikan semua fitur berfungsi dengan baik dan aman dari serangan XSS.
+Langkah:
+Tambah Produk Valid: Coba tambahkan produk dengan data yang valid dan pastikan produk muncul di daftar tanpa me-refresh halaman.
+Uji Validasi Form: Isi form dengan data yang tidak valid dan periksa apakah pesan error ditampilkan dengan benar.
+Uji Perlindungan XSS: Coba masukkan skrip berbahaya dalam form produk dan pastikan skrip tersebut tidak dieksekusi saat ditampilkan.
+
+9. Menyempurnakan UI dengan Tailwind CSS
+Tujuan: Membuat tampilan aplikasi lebih menarik dan responsif.
+Langkah:
+Terapkan Kelas Tailwind: Gunakan kelas-kelas Tailwind CSS pada elemen HTML seperti kartu produk, tombol, dan form untuk meningkatkan estetika.
+Sesuaikan Modal: Pastikan modal memiliki desain yang konsisten dan responsif dengan menggunakan kelas Tailwind yang sesuai.
+
+10. Menambahkan Fungsi Edit dan Delete Produk (Opsional)
+Tujuan: Memungkinkan pengguna untuk mengedit dan menghapus produk, meningkatkan manajemen produk.
+Langkah:
+Buat View Edit Produk: Tambahkan fungsi di backend untuk menangani pengeditan produk.
+Update Routing: Tambahkan path URL untuk mengakses fungsi edit dan delete produk.
+Desain Template Edit dan Delete: Buat halaman atau modal untuk mengedit dan mengonfirmasi penghapusan produk.
+Implementasi AJAX untuk Edit dan Delete: Gunakan AJAX untuk mengedit dan menghapus produk tanpa me-refresh halaman.
